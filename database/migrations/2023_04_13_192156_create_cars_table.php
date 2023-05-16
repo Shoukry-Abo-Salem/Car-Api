@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
             $table->string('fullName',150);
-            $table->bigInteger('year')->default(2000);
+            $table->string('year');
             $table->string('manufacturerType');
             $table->enum('carModel',['سيدان','بيك أب','كوبيه','هاتش باك','دفع رباعي','واجن','تجارية','فان'])->default('سيدان');
             $table->enum('typeOfFuel',['بنزين','ديزل','كهرباء','هجين'])->default('بنزين');
@@ -23,17 +23,27 @@ return new class extends Migration
             $table->enum('isCarNew',['جديدة','مستعملة'])->default('مستعملة');
             $table->string('countryOfOrigin',100)->nullable();
             $table->enum('numberOfDoers',[2,3,4,5,6])->default(4);
+            $table->string('location',70)->default('غزة');
             $table->enum('numberOfCylinders',[2,3,4,5,6,8,10,12,'كهرباء'])->default(4);
-            $table->double('engineCapacity')->default(0.0);
-            $table->float('price')->default(0.001);
-            $table->string('description')->default('No Description');
-            $table->double('mileage')->default(0.001);
-            $table->string('color')->default('white');
+            $table->string('engineCapacity');
+            $table->string('price');
 
+            //Table for store photos.
+//            $table->string('photo')->default('No Photos found');
+            $table->string('description')->default('No Description');
+            $table->string('mileage');
+            $table->string('color')->default('white');
+//            $table->bigInteger('merchant_id');
+
+            //Trying add foreign key.
 //            $table->foreignIdFor(Merchant::class)->constrained();
 //            $table->foreignId('merchant_id')->constrained();
 //            $table->foreignId('merchant_id')->constrained()->restrictOnDelete();
-//            $table->foreign('merchant_id')->on('merchants')->references('id');
+
+            $table->foreignId('merchant_id')->nullable();
+            $table->foreign('merchant_id')->references('id')->on('merchants')->onDelete('cascade');
+            $table->foreignId('customer_id');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
 
             $table->softDeletes();
             $table->timestamps();

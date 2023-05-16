@@ -20,10 +20,11 @@ return new class extends Migration
             $table->bigInteger("telefon")->nullable();
             $table->string('email');
             $table->string('password');
-            $table->enum('address',['غزة','رفح','خان يونس','شمال غزة'])->default('غزة');
+            $table->enum('address',['غزة','رفح','خان يونس','شمال غزة','','وسطى','جنوب غزة'])->default('غزة');
             $table->enum('gender',['ذكر','أنثى'])->default('ذكر');
             $table->enum('typeOfMerchant',['وكيل','معرض'])->default('معرض');
-            $table->string('image')->nullable(true);
+            $table->string('image')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });

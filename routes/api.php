@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\ApiAuthController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\InformationController;
 use App\Http\Controllers\MerchantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,8 +31,10 @@ Route::apiResource('car', CarController::class);
 Route::apiResource('merchant', MerchantController::class);
 Route::apiResource('customer', CustomerController::class);
 
+Route::get('information',[InformationController::class,'index']);
+
 Route::prefix('carFilter')->group(function () {
-    Route::get('/{year}', [CarController::class, 'getCarsFilter']);
+    Route::post('/getCarsFilter', [CarController::class, 'getCarsFilter']);
 //    Route::get('/{price}', [CarController::class, 'getCarsFilter']);
 });
 

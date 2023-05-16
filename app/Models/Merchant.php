@@ -10,8 +10,8 @@ use Laravel\Passport\HasApiTokens;
 class Merchant extends Authenticatable
 {
 
-    public function cars() {
-        return $this->hasMany(Car::class,'merchant_id','id');
+    public function exhibition() {
+        return $this->hasMany(Exhibition::class);
     }
 
 

@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Expr\Cast\Double;
-use phpseclib3\Math\BigInteger;
 use Symfony\Component\HttpFoundation\Response;
 use function PHPUnit\Framework\isNull;
 
@@ -22,13 +20,37 @@ class CarController extends Controller
         return response()->json(['status' => true, 'message' => 'success', 'data' => $cars], Response::HTTP_OK);
     }
 
-    public function getCarsFilter(Request $request, string $year)
+    public function getCarsFilter(Request $request)
     {
-        if ($year != null) {
-//            $cars->where('year', 'like', '%' . $year . '%')->get();
-            $cars = DB::table('cars')->get()->where('year', '=', $year);
-            return \response()->json(['status' => true, 'message' => 'year', 'data' => $cars], Response::HTTP_OK);
+        $price = $request->get('price');
+        $year = $request->get('year');
+        $model = $request->get('model');
+        $type = $request->get('type');
+
+        $cars = Car::query();
+        if($price){
+            $cars->orWhere('price',"like","%".$price."%");
         }
+        if($year){
+            $cars->orWhere('year',"like","%".$year."%");
+        }
+        if($model){
+            $cars->orWhere('carModel',"like","%".$model."%");
+        }
+        if($type){
+            $cars->orWhere('manufacturerType',"like","%".$type."%");
+        }
+        $result = $cars->latest()->get();
+        return \response()->json([
+            'status' => true, 'message' => 'data', 'data' => $result
+        ], Response::HTTP_OK);
+
+
+//        if ($year != null) {
+////            $cars->where('year', 'like', '%' . $year . '%')->get();
+//            $cars = DB::table('cars')->get()->where('year', '=', $year);
+//            return \response()->json(['status' => true, 'message' => 'year', 'data' => $cars], Response::HTTP_OK);
+//        }
 
 //        if ($price != null) {
 //            $cars = DB::table('cars')->get()->where('price', '>=',$price);
@@ -52,6 +74,7 @@ class CarController extends Controller
             'numberOfCylinders' => 'required',
             'price' => 'required',
             'isCarNew'=> 'required',
+            'location'=> 'required|string',
             'numberOfDoers'=> 'required',
             'description' => 'required|string|min:15',
             'typeOfFuel' => 'required|string',
@@ -76,7 +99,7 @@ class CarController extends Controller
     {
 
         $car = Car::findOrFail($id);
-        return \response()->json(['status' => !isNull($car), 'message' => $car ? 'Success' : 'Not Found', 'object' => $car], $car ? Response::HTTP_OK : Response::HTTP_NOT_FOUND);
+        return response()->json(['status' => $car ? true : false, 'message' => $car ? 'success' : 'Not Found', 'object' => $car], $car ? Response::HTTP_OK : Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -91,6 +114,8 @@ class CarController extends Controller
             'engineCapacity' => 'required',
             'typeOfFuel' => 'required',
             'price' => 'required',
+            'description'=>'required',
+            'location'=>'required',
             'numberOfCylinders' => 'required',
             'typeOfGears' => 'required',
             'color' => 'required',

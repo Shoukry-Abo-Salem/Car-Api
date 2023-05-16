@@ -4,14 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Car extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
-    public function merchant() {
-        return $this->belongsTo(Merchant::class,'merchant_id','id');
+
+    public function exhibition() {
+        return $this->belongsTo(Exhibition::class);
     }
+
+    public function customer(){
+        return $this->belongsTo(User::class);
+    }
+
 
 
     /**
@@ -33,11 +41,14 @@ class Car extends Model
         'price',
         'description',
         'mileage',
+        'location',
+        'countryOfOrigin',
         'numberOfDoers',
         'engineCapacity',
         'typeOfFuel',
         'typeOfGears',
         'color',
+        'customer_id',
     ];
 
     protected $casts = [
