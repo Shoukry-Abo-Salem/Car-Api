@@ -20,6 +20,16 @@ class CarController extends Controller
         return response()->json(['status' => true, 'message' => 'success', 'data' => $cars], Response::HTTP_OK);
     }
 
+    public function search(string $name){
+        $cars = Car::query();
+
+        if ($name){
+            $cars->where('fullName', "like", "%".$name."%")->get();
+        }
+        $result = $cars->latest()->get();
+        return \response()->json(['status'=>true,'message'=>'success','data'=>$result],Response::HTTP_OK);
+    }
+
     public function getCarsFilter(Request $request)
     {
         $price = $request->get('price');
@@ -97,7 +107,6 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-
         $car = Car::findOrFail($id);
         return response()->json(['status' => $car ? true : false, 'message' => $car ? 'success' : 'Not Found', 'object' => $car], $car ? Response::HTTP_OK : Response::HTTP_NOT_FOUND);
     }
