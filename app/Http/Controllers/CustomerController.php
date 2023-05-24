@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,12 @@ class CustomerController extends Controller
     {
         $allCustomer = Customer::all();
         return response()->json(['status' => true, 'message' => 'success', 'data' => $allCustomer]);
+    }
+
+    public function carCustomer(string $id){
+        $carCustomer = Car::query();
+        $carCustomer->where('customer_id','=',$id);
+        return \response()->json(['status'=>true,'message'=>'success','data'=>$carCustomer],Response::HTTP_OK);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
 use App\Models\Merchant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,12 @@ class MerchantController extends Controller
     {
         $allMerchant = Merchant::all();
         return response()->json(['status' => true, 'message' => 'success', 'data' => $allMerchant]);
+    }
+
+    public function carMerchant(string $id){
+//        $carMerchant = Car::with('merchant_id')->count('merchant_id');
+//        $carMerchant->where('merchant_id',"=",$id)->get();
+//        return \response()->json(['status'=>true,'message'=>'success','data'=>$carMerchant],Response::HTTP_OK);
     }
 
     /**

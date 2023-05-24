@@ -33,6 +33,9 @@ Route::apiResource('customer', CustomerController::class);
 
 Route::get('information',[InformationController::class,'index']);
 
+Route::get('carMerchant/{id}',[MerchantController::class,'carMerchant']);
+Route::get('carCustomer/{id}',[CustomerController::class,'carCustomer']);
+
 Route::get('search/{name}',[CarController::class,'search']);
 
 Route::prefix('carFilter')->group(function () {
