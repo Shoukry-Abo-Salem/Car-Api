@@ -21,9 +21,11 @@ class CustomerController extends Controller
     }
 
     public function carCustomer(string $id){
-        $carCustomer = Car::query();
-        $carCustomer->where('customer_id','=',$id);
-        return \response()->json(['status'=>true,'message'=>'success','data'=>$carCustomer],Response::HTTP_OK);
+//        $carCustomer = Car::query();
+//        $carCustomer->where('customer_id','=',$id);
+        $carCustomer = Customer::find($id);
+        $cars = $carCustomer->cars;
+        return \response()->json(['status'=>true,'message'=>'success','data'=>$cars],Response::HTTP_OK);
     }
 
     /**

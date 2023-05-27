@@ -10,15 +10,18 @@ use Laravel\Passport\HasApiTokens;
 class Merchant extends Authenticatable
 {
 
-    public function exhibition() {
-        return $this->hasMany(Exhibition::class);
+//    public function exhibition() {
+//        return $this->hasMany(Exhibition::class);
+//    }
+
+    public function cars(){
+        return $this->hasMany(Car::class);
     }
 
 
     use HasFactory,HasApiTokens;
 
     protected $hidden = [
-        'created_at',
         'deleted_at',
         'updated_at',
     ];

@@ -46,7 +46,7 @@ return [
         ],
         'merchant-api' => [
             'driver' => 'passport',
-            'provider' => 'customers',
+            'provider' => 'merchants',
         ]
     ],
 

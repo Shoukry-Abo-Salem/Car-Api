@@ -12,12 +12,16 @@ class Car extends Model
     use SoftDeletes;
 
 
-    public function exhibition() {
-        return $this->belongsTo(Exhibition::class);
-    }
+//    public function exhibition() {
+//        return $this->belongsTo(Exhibition::class);
+//    }
 
     public function customer(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function merchants(){
+        return $this->belongsTo(Merchant::class);
     }
 
 
@@ -28,7 +32,6 @@ class Car extends Model
      * @var array<string>
      */
     protected $hidden = [
-        'created_at',
         'updated_at',
         'deleted_at',
     ];
@@ -49,6 +52,7 @@ class Car extends Model
         'typeOfGears',
         'color',
         'customer_id',
+        'merchant_id',
     ];
 
     protected $casts = [

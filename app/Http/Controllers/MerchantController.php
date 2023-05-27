@@ -21,9 +21,9 @@ class MerchantController extends Controller
     }
 
     public function carMerchant(string $id){
-//        $carMerchant = Car::with('merchant_id')->count('merchant_id');
-//        $carMerchant->where('merchant_id',"=",$id)->get();
-//        return \response()->json(['status'=>true,'message'=>'success','data'=>$carMerchant],Response::HTTP_OK);
+          $carMerchant = Merchant::find($id);
+          $cars = $carMerchant->cars;
+        return \response()->json(['status'=>true,'message'=>'success','data'=>$cars],Response::HTTP_OK);
     }
 
     /**

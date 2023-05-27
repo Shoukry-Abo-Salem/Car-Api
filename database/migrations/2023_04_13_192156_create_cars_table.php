@@ -33,7 +33,6 @@ return new class extends Migration
             $table->string('description')->default('No Description');
             $table->string('mileage');
             $table->string('color')->default('white');
-//            $table->bigInteger('merchant_id');
 
             //Trying add foreign key.
 //            $table->foreignIdFor(Merchant::class)->constrained();
@@ -42,7 +41,7 @@ return new class extends Migration
 
             $table->foreignId('merchant_id')->nullable();
             $table->foreign('merchant_id')->references('id')->on('merchants')->onDelete('cascade');
-            $table->foreignId('customer_id');
+            $table->foreignId('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
 
             $table->softDeletes();

@@ -40,43 +40,47 @@ class ApiAuthController extends Controller
 
             return response()->json(['status' => $saved, 'message' => $saved ? 'Registered' : 'Registration Failed', 'object' => $customer], $saved ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
         } else {
-            return  response()->json(['status'=>false,'message'=>$validator->getMessageBag()->first()],Response::HTTP_BAD_REQUEST);
+            return response()->json(['status' => false, 'message' => $validator->getMessageBag()->first()], Response::HTTP_BAD_REQUEST);
         }
     }
 
     //Login Customer
-    public function loginCustomer(Request $request){
-        $validator = Validator($request->all(),[
-            'email'=>'required|email|exists:customers,email',
-            'password'=>'required|string',
+    public function loginCustomer(Request $request)
+    {
+        $validator = Validator($request->all(), [
+            'email' => 'required|email|exists:customers,email',
+            'password' => 'required|string',
         ]);
 
-        if (! $validator->fails()){
-            $customer = Customer::where('email','=',$request->input('email'))->first();
-            if (Hash::check($request->input('password'),$customer->password)){
-                $token = $customer->createToken('customer-api-token-'.$customer->id);
+        if (!$validator->fails()) {
+            $customer = Customer::where('email', '=', $request->input('email'))->first();
+            if (Hash::check($request->input('password'), $customer->password)) {
+                $token = $customer->createToken('customer-api-token-' . $customer->id);
                 $customer->token = $token->accessToken;
-                return response()->json(['status'=>true,'message'=>$customer]);
-            }else {
-                return  response()->json(['status'=>false,'message'=>'Wrong Password'],Response::HTTP_BAD_REQUEST);
+                return response()->json(['status' => true, 'message' => $customer]);
+            } else {
+                return response()->json(['status' => false, 'message' => 'Wrong Password'], Response::HTTP_BAD_REQUEST);
             }
-        }else {
-            return  response()->json(['status'=>false,'message'=>$validator->getMessageBag()->first()],Response::HTTP_BAD_REQUEST);
+        } else {
+            return response()->json(['status' => false, 'message' => $validator->getMessageBag()->first()], Response::HTTP_BAD_REQUEST);
         }
     }
 
     //Logout Customer
-    public function logoutCustomer(Request $request){
+    public function logoutCustomer(Request $request)
+    {
         $customer = $request->user('customer-api');
         $revoked = $customer->token()->revoke();
-        return \response()->json(['status'=>$revoked,'message'=>$revoked ? 'Logged Out' : 'Failed Logout',],$revoked ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
+        return \response()->json(['status' => $revoked, 'message' => $revoked ? 'Logged Out' : 'Failed Logout',], $revoked ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
 
     /*
      * *******************
      */
 
-    public function registerMerchant(Request $request){
+    //Register Merchant
+    public function registerMerchant(Request $request)
+    {
         $validator = Validator($request->all(), [
             'firstName' => 'required|string',
 //            'middleName' => 'required|string',
@@ -106,28 +110,38 @@ class ApiAuthController extends Controller
 
             return response()->json(['status' => $saved, 'message' => $saved ? 'Registered' : 'Registration Failed', 'object' => $merchant], $saved ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
         } else {
-            return  response()->json(['status'=>false,'message'=>$validator->getMessageBag()->first()],Response::HTTP_BAD_REQUEST);
+            return response()->json(['status' => false, 'message' => $validator->getMessageBag()->first()], Response::HTTP_BAD_REQUEST);
         }
     }
 
-    public function loginMerchant(Request $request){
-        $validator = Validator($request->all(),[
-            'email'=>'required|email|exists:merchants,email',
-            'password'=>'required|string',
+    //Log in Merchant
+    public function loginMerchant(Request $request)
+    {
+        $validator = Validator($request->all(), [
+            'email' => 'required|email|exists:merchants,email',
+            'password' => 'required|string',
         ]);
 
-        if (! $validator->fails()){
-            $merchant = Merchant::where('email','=',$request->input('email'))->first();
-            if (Hash::check($request->input('password'),$merchant->password)){
-                $token = $merchant->createToken('merchant-api-token-'.$merchant->id);
+        if (!$validator->fails()) {
+            $merchant = Merchant::where('email', '=', $request->input('email'))->first();
+            if (Hash::check($request->input('password'), $merchant->password)) {
+                $token = $merchant->createToken('merchant-api-token-' . $merchant->id);
                 $merchant->token = $token->accessToken;
-                return response()->json(['status'=>true,'message'=>$merchant]);
-            }else {
-                return  response()->json(['status'=>false,'message'=>'Wrong Password'],Response::HTTP_BAD_REQUEST);
+                return response()->json(['status' => true, 'message' => $merchant]);
+            } else {
+                return response()->json(['status' => false, 'message' => 'Wrong Password'], Response::HTTP_BAD_REQUEST);
             }
-        }else {
-            return  response()->json(['status'=>false,'message'=>$validator->getMessageBag()->first()],Response::HTTP_BAD_REQUEST);
+        } else {
+            return response()->json(['status' => false, 'message' => $validator->getMessageBag()->first()], Response::HTTP_BAD_REQUEST);
         }
+    }
+
+    //Logout Merchant
+    public function logoutMerchant(Request $request)
+    {
+        $merchant = $request->user('merchant-api');
+        $revoked = $merchant->token()->revoke();
+        return \response()->json(['status' => $revoked, 'message' => $revoked ? 'Logged Out' : 'Failed Logout',], $revoked ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
 
 }

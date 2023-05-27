@@ -12,8 +12,11 @@ class Customer extends Authenticatable
 {
     use HasFactory,HasApiTokens;
 
+    public function cars(){
+        return $this->hasMany(Car::class);
+    }
+
     protected $hidden = [
-        'created_at',
         'updated_at',
         'deleted_at',
         'email_verified_at',

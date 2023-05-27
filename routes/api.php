@@ -51,6 +51,7 @@ Route::prefix('auth')->group(function () {
     Route::post('login/merchant', [ApiAuthController::class, 'loginMerchant']);
 
     Route::get('logout/customer', [ApiAuthController::class, 'logoutCustomer']);
+    Route::get('logout/merchant', [ApiAuthController::class, 'logoutMerchant']);
 });
 
 //Route::get('getAll',[CarController::class, 'index']);
