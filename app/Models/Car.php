@@ -39,6 +39,7 @@ class Car extends Model
     protected $fillable = [
         'fullName',
         'year',
+        'carModel',
         'manufacturerType',
         'isCarNew',
         'price',
